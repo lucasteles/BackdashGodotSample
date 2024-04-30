@@ -1,0 +1,203 @@
+[gd_scene load_steps=14 format=3 uid="uid://imd130mjtljw"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/BattleScene.cs" id="1_jb3we"]
+[ext_resource type="Script" path="res://Scripts/Logic/BackgroundManager.cs" id="2_1jvyg"]
+[ext_resource type="PackedScene" uid="uid://cpel6ds04kkct" path="res://prefabs/ship.tscn" id="2_6u0j4"]
+[ext_resource type="Texture2D" uid="uid://cswmf7rsk5xrd" path="res://assets/sprites/star_big.png" id="3_5wi1y"]
+[ext_resource type="Texture2D" uid="uid://ds0fimm25xnhy" path="res://assets/sprites/star_small.png" id="4_bnqvl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_66f4e"]
+font_size = 35
+font_color = Color(0.380392, 0.607843, 0.231373, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rcs4a"]
+font_size = 35
+font_color = Color(0.741176, 0.243137, 0.243137, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v7kff"]
+font_size = 35
+font_color = Color(0.121569, 0.556863, 0.729412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_07wy6"]
+font_size = 35
+font_color = Color(0.556863, 0.329412, 0.756863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kgqf8"]
+content_margin_left = 20.0
+content_margin_top = 4.0
+content_margin_right = 20.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0901961, 0.0901961, 0.0901961, 0.976471)
+border_color = Color(0.886275, 0.815686, 0, 1)
+shadow_color = Color(0.639206, 0.639206, 0.639206, 0.6)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n1wik"]
+font_color = Color(0.763809, 0.763809, 0.763808, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7kby4"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.0901961, 0.0901961, 0.0901961, 0.905882)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.886275, 0.815686, 0, 0.776471)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.733905, 0.637749, 0.158578, 0.6)
+shadow_size = 3
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7sp01"]
+font_size = 24
+outline_size = 8
+outline_color = Color(0.0755101, 0.0755101, 0.0755101, 1)
+
+[node name="Root" type="Node2D"]
+script = ExtResource("1_jb3we")
+shipPrefab = ExtResource("2_6u0j4")
+metadata/_edit_vertical_guides_ = [-3015.0, -3012.0]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 9
+
+[node name="Margin" type="MarginContainer" parent="HUD"]
+offset_right = 1023.0
+offset_bottom = 764.0
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="PlayerNames" type="MarginContainer" parent="HUD/Margin"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="lblPlayer1" type="Label" parent="HUD/Margin/PlayerNames"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "player1: 0"
+label_settings = SubResource("LabelSettings_66f4e")
+
+[node name="lblPlayer2" type="Label" parent="HUD/Margin/PlayerNames"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "player2: 0"
+label_settings = SubResource("LabelSettings_rcs4a")
+horizontal_alignment = 2
+
+[node name="lblPlayer3" type="Label" parent="HUD/Margin/PlayerNames"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "player3: 0"
+label_settings = SubResource("LabelSettings_v7kff")
+vertical_alignment = 1
+
+[node name="lblPlayer4" type="Label" parent="HUD/Margin/PlayerNames"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "player4: 0"
+label_settings = SubResource("LabelSettings_07wy6")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Stats" type="PanelContainer" parent="HUD/Margin"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_kgqf8")
+
+[node name="FooterBox" type="HBoxContainer" parent="HUD/Margin/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PingInfo" type="HBoxContainer" parent="HUD/Margin/Stats/FooterBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="lblPingTitle" type="Label" parent="HUD/Margin/Stats/FooterBox/PingInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "ping:"
+label_settings = SubResource("LabelSettings_n1wik")
+vertical_alignment = 1
+
+[node name="lblPingValue" type="Label" parent="HUD/Margin/Stats/FooterBox/PingInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "0.00"
+label_settings = SubResource("LabelSettings_n1wik")
+vertical_alignment = 1
+
+[node name="lblPingUnit" type="Label" parent="HUD/Margin/Stats/FooterBox/PingInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "ms"
+label_settings = SubResource("LabelSettings_n1wik")
+vertical_alignment = 1
+
+[node name="RollbackInfo" type="HBoxContainer" parent="HUD/Margin/Stats/FooterBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="lblRollbackTitle" type="Label" parent="HUD/Margin/Stats/FooterBox/RollbackInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "rollback frames:"
+label_settings = SubResource("LabelSettings_n1wik")
+vertical_alignment = 1
+
+[node name="lblRollbackValue" type="Label" parent="HUD/Margin/Stats/FooterBox/RollbackInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "0"
+label_settings = SubResource("LabelSettings_n1wik")
+vertical_alignment = 1
+
+[node name="MessageBox" type="PanelContainer" parent="HUD/Margin"]
+unique_name_in_owner = true
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_7kby4")
+
+[node name="HeaderBox" type="HBoxContainer" parent="HUD/Margin/MessageBox"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="lblStatusMessage" type="Label" parent="HUD/Margin/MessageBox/HeaderBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "foo .. bar .. baz"
+label_settings = SubResource("LabelSettings_7sp01")
+vertical_alignment = 1
+
+[node name="Backgound" type="Node2D" parent="."]
+z_index = -9
+script = ExtResource("2_1jvyg")
+bigStar = ExtResource("3_5wi1y")
+smallStar = ExtResource("4_bnqvl")

@@ -1,0 +1,209 @@
+[gd_scene load_steps=16 format=3 uid="uid://drwxkxiew1bql"]
+
+[ext_resource type="Texture2D" uid="uid://c0ae41h1i4s1p" path="res://textures/blank.tres" id="1_ndtds"]
+[ext_resource type="Script" path="res://Scripts/Scenes/LobbyScene.cs" id="1_vswju"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eqvhj"]
+font_size = 35
+font_color = Color(1, 1, 0, 1)
+outline_size = 5
+outline_color = Color(0.760784, 0.270588, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0wvi1"]
+font_size = 35
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pybek"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.226708, 0.226707, 0.226707, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k200a"]
+font_size = 25
+font_color = Color(0.941687, 0.888888, 0.722387, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_24sh7"]
+line_spacing = 15.0
+font_size = 30
+font_color = Color(0.288914, 0.704992, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_at5wv"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.106237, 0.106237, 0.106237, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uikim"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akyc4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2llfo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qmlp6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xdev"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ckfke"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o84cs"]
+
+[node name="Root" type="Node2D"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 1027.0
+offset_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="LobbyContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+script = ExtResource("1_vswju")
+
+[node name="RefreshLobbyTimer" type="Timer" parent="MarginContainer/LobbyContainer"]
+wait_time = 2.0
+autostart = true
+
+[node name="UdpPingTimer" type="Timer" parent="MarginContainer/LobbyContainer"]
+wait_time = 0.4
+autostart = true
+
+[node name="HeaderContainer" type="HSplitContainer" parent="MarginContainer/LobbyContainer"]
+layout_mode = 2
+
+[node name="lblLobbyName" type="Label" parent="MarginContainer/LobbyContainer/HeaderContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LobbyName..."
+label_settings = SubResource("LabelSettings_eqvhj")
+
+[node name="lblUserName" type="Label" parent="MarginContainer/LobbyContainer/HeaderContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Username..."
+label_settings = SubResource("LabelSettings_0wvi1")
+horizontal_alignment = 2
+
+[node name="StatusContainer" type="PanelContainer" parent="MarginContainer/LobbyContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pybek")
+
+[node name="lblStatus" type="Label" parent="MarginContainer/LobbyContainer/StatusContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "lobby status..."
+label_settings = SubResource("LabelSettings_k200a")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MembersContainer" type="HSplitContainer" parent="MarginContainer/LobbyContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayersPanel" type="PanelContainer" parent="MarginContainer/LobbyContainer/MembersContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayersContainer" type="VBoxContainer" parent="MarginContainer/LobbyContainer/MembersContainer/PlayersPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="lblTitlePlayers" type="Label" parent="MarginContainer/LobbyContainer/MembersContainer/PlayersPanel/PlayersContainer"]
+layout_mode = 2
+text = "Players"
+label_settings = SubResource("LabelSettings_24sh7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lstPlayers" type="ItemList" parent="MarginContainer/LobbyContainer/MembersContainer/PlayersPanel/PlayersContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_constants/icon_margin = 20
+theme_override_font_sizes/font_size = 40
+theme_override_styles/panel = SubResource("StyleBoxFlat_at5wv")
+max_text_lines = 32
+item_count = 1
+fixed_icon_size = Vector2i(30, 30)
+item_0/text = "Player 1"
+item_0/icon = ExtResource("1_ndtds")
+item_0/selectable = false
+
+[node name="SpectatorsPanel" type="PanelContainer" parent="MarginContainer/LobbyContainer/MembersContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SpectatorsContainer" type="VBoxContainer" parent="MarginContainer/LobbyContainer/MembersContainer/SpectatorsPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="lblTitleSpectators" type="Label" parent="MarginContainer/LobbyContainer/MembersContainer/SpectatorsPanel/SpectatorsContainer"]
+layout_mode = 2
+text = "Spectators"
+label_settings = SubResource("LabelSettings_24sh7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lstSpectators" type="ItemList" parent="MarginContainer/LobbyContainer/MembersContainer/SpectatorsPanel/SpectatorsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_constants/icon_margin = 20
+theme_override_font_sizes/font_size = 40
+theme_override_styles/panel = SubResource("StyleBoxFlat_at5wv")
+max_text_lines = 32
+item_count = 1
+fixed_icon_size = Vector2i(30, 30)
+item_0/text = "Spectator 1"
+item_0/icon = ExtResource("1_ndtds")
+item_0/selectable = false
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/LobbyContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+
+[node name="lstStatusLabels" type="ItemList" parent="MarginContainer/LobbyContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_hovered_color = Color(0.643137, 0.643137, 0.643137, 1)
+theme_override_colors/font_selected_color = Color(0.647059, 0.647059, 0.647059, 1)
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_margin = 10
+theme_override_constants/line_separation = 0
+theme_override_font_sizes/font_size = 20
+theme_override_styles/panel = SubResource("StyleBoxFlat_uikim")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_akyc4")
+theme_override_styles/hovered = SubResource("StyleBoxEmpty_2llfo")
+theme_override_styles/selected = SubResource("StyleBoxEmpty_qmlp6")
+theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0xdev")
+theme_override_styles/cursor = SubResource("StyleBoxEmpty_ckfke")
+theme_override_styles/cursor_unfocused = SubResource("StyleBoxEmpty_o84cs")
+allow_search = false
+item_count = 2
+max_columns = 10
+fixed_icon_size = Vector2i(20, 20)
+item_0/text = "Label 1 "
+item_0/icon = ExtResource("1_ndtds")
+item_1/text = "Label 2"
+item_1/icon = ExtResource("1_ndtds")
+
+[connection signal="timeout" from="MarginContainer/LobbyContainer/RefreshLobbyTimer" to="MarginContainer/LobbyContainer" method="_OnRefreshLobby"]
+[connection signal="timeout" from="MarginContainer/LobbyContainer/UdpPingTimer" to="MarginContainer/LobbyContainer" method="_OnPingTimer"]

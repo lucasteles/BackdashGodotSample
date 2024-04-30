@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm77qm3syxll1"]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/LoginScene.cs" id="2_xrhcq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vb4j8"]
+font_size = 40
+font_color = Color(1, 1, 0, 1)
+outline_size = 5
+outline_color = Color(0.760784, 0.270588, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ih7yg"]
+font_size = 40
+font_color = Color(1, 1, 0, 1)
+outline_size = 5
+outline_color = Color(0.760784, 0.270588, 0, 1)
+
+[node name="Root" type="Node2D"]
+
+[node name="FormMarginContainer" type="MarginContainer" parent="."]
+offset_right = 1025.0
+offset_bottom = 769.0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="LoginForm" type="VBoxContainer" parent="FormMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+alignment = 1
+script = ExtResource("2_xrhcq")
+
+[node name="LobbyInput" type="HBoxContainer" parent="FormMarginContainer/LoginForm"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="lblLobby" type="Label" parent="FormMarginContainer/LoginForm/LobbyInput"]
+layout_mode = 2
+text = "Lobby Name: "
+label_settings = SubResource("LabelSettings_vb4j8")
+
+[node name="txtLobby" type="LineEdit" parent="FormMarginContainer/LoginForm/LobbyInput"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+max_length = 40
+
+[node name="UsernameInput" type="HBoxContainer" parent="FormMarginContainer/LoginForm"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="lblUsername" type="Label" parent="FormMarginContainer/LoginForm/UsernameInput"]
+layout_mode = 2
+text = "Username: "
+label_settings = SubResource("LabelSettings_vb4j8")
+vertical_alignment = 1
+
+[node name="txtUsername" type="LineEdit" parent="FormMarginContainer/LoginForm/UsernameInput"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+max_length = 40
+
+[node name="PortInput" type="HBoxContainer" parent="FormMarginContainer/LoginForm"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="lblPort" type="Label" parent="FormMarginContainer/LoginForm/PortInput"]
+layout_mode = 2
+text = "Local Port:  "
+label_settings = SubResource("LabelSettings_ih7yg")
+vertical_alignment = 1
+
+[node name="txtPort" type="LineEdit" parent="FormMarginContainer/LoginForm/PortInput"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+max_length = 10
+
+[node name="lblMode" type="Label" parent="FormMarginContainer/LoginForm"]
+layout_mode = 2
+text = "Enter as:"
+label_settings = SubResource("LabelSettings_vb4j8")
+vertical_alignment = 1
+
+[node name="modeSelect" type="HBoxContainer" parent="FormMarginContainer/LoginForm"]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="btnStartPlayer" type="Button" parent="FormMarginContainer/LoginForm/modeSelect"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Player"
+
+[node name="btnStartSpectator" type="Button" parent="FormMarginContainer/LoginForm/modeSelect"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Spectator"
+
+[connection signal="pressed" from="FormMarginContainer/LoginForm/modeSelect/btnStartPlayer" to="FormMarginContainer/LoginForm" method="_StartAsPlayer"]
+[connection signal="pressed" from="FormMarginContainer/LoginForm/modeSelect/btnStartSpectator" to="FormMarginContainer/LoginForm" method="_StartAsSpectator"]
