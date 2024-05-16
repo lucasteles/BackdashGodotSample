@@ -1,4 +1,4 @@
-﻿static class ActionNames
+static class ActionNames
 {
     public const string Start = "start";
     public const string Cancel = "cancel";

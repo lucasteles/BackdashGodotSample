@@ -1,13 +1,13 @@
-﻿namespace SpaceWar.Services;
+namespace SpaceWar.Services;
 
-using Backdash.JsonConverters;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using HttpClient = System.Net.Http.HttpClient;
+using Backdash.JsonConverters;
 using Models;
+using HttpClient = System.Net.Http.HttpClient;
 
 public sealed class LobbyHttpClient(int localPort, Uri serverUri)
 {

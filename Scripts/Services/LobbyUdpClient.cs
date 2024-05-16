@@ -1,4 +1,4 @@
-﻿namespace SpaceWar.Services;
+namespace SpaceWar.Services;
 
 using System.Net;
 using System.Runtime.CompilerServices;

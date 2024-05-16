@@ -1,4 +1,4 @@
-﻿namespace SpaceWar;
+namespace SpaceWar;
 
 public static class Log
 {

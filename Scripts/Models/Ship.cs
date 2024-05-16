@@ -1,4 +1,4 @@
-﻿namespace SpaceWar.Models;
+namespace SpaceWar.Models;
 
 using Backdash.Data;
 using Logic;

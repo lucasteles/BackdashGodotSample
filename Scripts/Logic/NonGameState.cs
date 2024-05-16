@@ -1,4 +1,4 @@
-﻿using SpaceWar.Models;
+using SpaceWar.Models;
 
 namespace SpaceWar.Logic;
 
