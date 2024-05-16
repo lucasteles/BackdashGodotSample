@@ -19,10 +19,10 @@ basic `Authentication` mechanism.
 
 The client uses HTTP pooling to get updated information on each lobby member/peer.
 
-When logged in, every client needs to send a `UDP` package with their token to the server. The server uses the package headers metadata  
+When logged in, every client needs to send a `UDP` package with their token to the server. The server uses the package header metadata  
 to keep track of their `IP` and open `Port`.
 
-> ⚠️ UDP Hole punching usually **does not** work witch clients behind the same NAT. To mitigate this the server
+> ⚠️ UDP Hole punching usually **does not** work with clients behind the same NAT. To mitigate this the server
 > also tracks the local IP and port on each client to check if the peer is on the same network.
 
 ## Controls
