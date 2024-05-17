@@ -4,6 +4,9 @@ This project is a usage sample of [rollback netcode](https://lucasteles.github.i
 
 It shows a basic example of an online lobby for NAT traversal using [UDP hole punching](https://en.wikipedia.org/wiki/UDP_hole_punching).
 
+## Video
+[![Godot Online](https://img.youtube.com/vi/8M8QnTiJZzA/default.jpg)](https://youtu.be/8M8QnTiJZzA)
+
 # How does it work?
 
 This enables a P2P connection over the internet, this is possible using
