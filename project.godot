@@ -11,8 +11,10 @@ config_version=5
 [application]
 
 config/name="SpaceWar"
+config/version="1.0.0"
 run/main_scene="res://scenes/login.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [display]
@@ -20,6 +22,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1024
 window/size/viewport_height=768
 window/size/resizable=false
+window/vsync/vsync_mode=0
 
 [dotnet]
 

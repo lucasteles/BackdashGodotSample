@@ -24,8 +24,11 @@ public partial class ShipNode : Node2D
 
     PlayerConnectionInfo playerConnection;
 
+    bool alive;
+
     public override void _Ready()
     {
+        alive = true;
         missileSprite.Name = "Missile";
         AddChild(missileSprite);
         missileSprite.Visible = false;
@@ -38,7 +41,10 @@ public partial class ShipNode : Node2D
     {
         lblStatusText.Text = "";
         loadingBar.Visible = false;
-        lifeBar.Visible = true;
+        lifeBar.Visible = alive;
+
+        if (!alive)
+            return;
 
         var textColor = Colors.White;
         var barColor = Colors.White;
@@ -125,18 +131,19 @@ public partial class ShipNode : Node2D
 
     public void UpdateShip(Ship ship)
     {
-        if (playerConnection.State is not PlayerConnectState.Running)
-            return;
+        alive = ship.Active;
 
-        if (shipSprite.Visible && !ship.Active && ship.Health <= 0 && !shipExplosionAnimation.IsPlaying())
+        if (shipSprite.Visible && !alive && ship.Health <= 0 && !shipExplosionAnimation.IsPlaying())
         {
             shipExplosionAnimation.Visible = true;
             shipExplosionAnimation.Frame = 0;
             shipExplosionAnimation.Play();
         }
 
+        if (!alive)
+            Disable();
+
         Position = ship.Position;
-        shipSprite.Visible = lifeBar.Visible = ship.Active;
         shipSprite.RotationDegrees = ship.Heading;
         thrustFire.Visible = ship.Thrust > 0;
 
@@ -169,6 +176,14 @@ public partial class ShipNode : Node2D
             nodeBullet.Visible = bullet.Active;
             nodeBullet.GlobalPosition = bullet.Position;
         }
+    }
+
+    void Disable()
+    {
+        shipSprite.Visible = false;
+        lifeBar.Visible = false;
+        loadingBar.Visible = false;
+        lblStatusText.Visible = false;
     }
 
     [MemberNotNull(nameof(bullets))]
