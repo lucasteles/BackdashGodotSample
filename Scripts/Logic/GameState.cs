@@ -6,7 +6,7 @@ using Backdash.Data;
 
 public sealed record GameState
 {
-    public Array<Ship> Ships = [];
+    public EquatableArray<Ship> Ships = [];
     public Rect2 Bounds;
     public int FrameNumber;
     public int NumberOfShips => Ships.Length;

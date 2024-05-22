@@ -18,7 +18,7 @@ public sealed record Ship
     public int Score;
     public int Thrust;
     public Missile Missile;
-    public readonly Array<Bullet> Bullets = new(GameConstants.MaxBullets);
+    public readonly EquatableArray<Bullet> Bullets = new(GameConstants.MaxBullets);
 }
 
 public record struct Bullet
