@@ -42,11 +42,12 @@ public sealed class LobbyUdpClient : IDisposable
         for (var i = 0; i < peers.Length; i++)
         {
             var peer = peers[i];
-            if (peer.Connected && peer.PeerId != user.PeerId)
-            {
-                // Log.Info($"{GlobalConfig.Instance.Username} pinging {peer.Username}");
-                await socket.SendToAsync(msgBytes, GetFallbackEndpoint(user, peer), ct);
-            }
+            if (!peer.Connected || peer.PeerId == user.PeerId)
+                continue;
+
+            // Log.Info($"{GlobalConfig.Instance.Username} pinging {peer.Username}");
+            var peerEndpoint = GetFallbackEndpoint(user, peer);
+            await socket.SendToAsync(msgBytes, peerEndpoint, ct);
         }
     }
 
@@ -58,7 +59,8 @@ public sealed class LobbyUdpClient : IDisposable
         {
             try
             {
-                var receiveInfo = await socket.ReceiveAsync(recBuffer, stoppingToken)
+                var receiveInfo = await socket
+                    .ReceiveAsync(recBuffer, stoppingToken)
                     .ConfigureAwait(false);
 
                 if (receiveInfo.ReceivedBytes is 0) continue;

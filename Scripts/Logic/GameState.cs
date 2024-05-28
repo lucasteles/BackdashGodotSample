@@ -9,13 +9,15 @@ public sealed record GameState
     public EquatableArray<Ship> Ships = [];
     public Rect2 Bounds;
     public int FrameNumber;
-    public int NumberOfShips => Ships.Length;
+
+    int NumberOfShips => Ships.Length;
 
     public void Init(int numberOfPlayers, Rect2 viewPort)
     {
         Ships = new(numberOfPlayers);
         for (var i = 0; i < numberOfPlayers; i++)
             Ships[i] = new();
+
         FrameNumber = 0;
         Bounds = viewPort;
         Bounds = Bounds.Grow(-GameConstants.WindowPadding);
@@ -161,6 +163,7 @@ public sealed record GameState
                 ref var other = ref Ships[j];
                 if (!other.Active)
                     continue;
+
                 if (other.Missile.Active
                     && other.Id != ship.Id
                     && !other.Missile.IsExploding()
@@ -174,8 +177,10 @@ public sealed record GameState
 
                 if (other.Id == ship.Id || other.Invincible > 0)
                     continue;
+
                 if (bullet.Position.DistanceTo(other.Position) > other.Radius)
                     continue;
+
                 ship.Score++;
                 other.Health -= GameConstants.BulletDamage;
                 bullet.Active = false;
@@ -241,8 +246,10 @@ public sealed record GameState
                 if (distance - missile.ExplosionRadius > other.Radius) continue;
                 if (other.Id != ship.Id)
                     ship.Score++;
+
                 other.Health -= GameConstants.MissileDamage;
                 other.Invincible = GameConstants.MissileInvincibleTime;
+
                 var pushDirection = (other.Position - missile.Position).Normalized();
                 other.Velocity = (pushDirection * GameConstants.ShipMaxThrust).RoundTo();
                 other.Position += other.Velocity * 2;
