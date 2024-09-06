@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dm77qm3syxll1"]
 
-[ext_resource type="Script" path="res://Scripts/Scenes/LoginScene.cs" id="2_xrhcq"]
+[ext_resource type="Script" path="res://scripts/Scenes/LoginScene.cs" id="2_xrhcq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vb4j8"]
 font_size = 40
@@ -94,8 +94,8 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 50
 text = "Player"
 
@@ -103,8 +103,8 @@ text = "Player"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0, 1, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 50
 text = "Spectator"
 

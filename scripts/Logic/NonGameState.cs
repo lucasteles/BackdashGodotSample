@@ -1,4 +1,5 @@
 using SpaceWar.Models;
+using SpaceWar.Services;
 
 namespace SpaceWar.Logic;
 
@@ -43,28 +44,26 @@ public sealed class NonGameState
     public void Init(
         Ship[] ships,
         IReadOnlyCollection<PlayerHandle> players,
-        PackedScene shipPrefab,
         Node rootNode
     )
     {
         ArgumentNullException.ThrowIfNull(ships);
         ArgumentNullException.ThrowIfNull(players);
-        ArgumentNullException.ThrowIfNull(shipPrefab);
         if (GlobalConfig.Instance.LobbyInfo is not { Players: { } peersInfo })
             throw new InvalidOperationException("Invalid players info");
 
         NumberOfPlayers = ships.Length;
         InitPlayerInfo(players, peersInfo);
         InitNameLabels(rootNode);
-        InitShipNodes(ships, shipPrefab, rootNode);
+        InitShipNodes(ships, rootNode);
     }
 
-    void InitShipNodes(Ship[] ships, PackedScene shipPrefab, Node rootNode)
+    void InitShipNodes(Ship[] ships, Node rootNode)
     {
         ShipNodes = new ShipNode[NumberOfPlayers];
         for (var i = 0; i < ShipNodes.Length; i++)
         {
-            var shipNode = shipPrefab.Instantiate<ShipNode>();
+            var shipNode = Prefab.Instantiate<ShipNode>("ship");
             shipNode.Initialize(ships[i], Players[i]);
             rootNode.AddChild(shipNode);
             ShipNodes[i] = shipNode;

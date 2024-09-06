@@ -6,8 +6,6 @@ using SpaceWar.Services;
 
 public partial class BattleScene : Node2D
 {
-    [Export] PackedScene shipPrefab;
-
     GlobalConfig config;
     IRollbackSession<GameInputs, GameState> rollbackSession;
     OnlineMatchSession gameSession;
@@ -58,11 +56,12 @@ public partial class BattleScene : Node2D
         gs = new();
         ngs = new();
 
+
         gs.Init(numPlayers, GetViewportRect());
         ngs.Init(
             gs.Ships,
             rollbackSession.GetPlayers(),
-            shipPrefab, this
+            this
         );
 
         gameSession = new(gs, ngs, rollbackSession);

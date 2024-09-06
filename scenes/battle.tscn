@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://imd130mjtljw"]
 
-[ext_resource type="Script" path="res://Scripts/Scenes/BattleScene.cs" id="1_jb3we"]
-[ext_resource type="Script" path="res://Scripts/Logic/BackgroundManager.cs" id="2_1jvyg"]
+[ext_resource type="Script" path="res://scripts/Scenes/BattleScene.cs" id="1_jb3we"]
+[ext_resource type="Script" path="res://scripts/Logic/BackgroundManager.cs" id="2_1jvyg"]
 [ext_resource type="PackedScene" uid="uid://cpel6ds04kkct" path="res://prefabs/ship.tscn" id="2_6u0j4"]
 [ext_resource type="Texture2D" uid="uid://cswmf7rsk5xrd" path="res://assets/sprites/star_big.png" id="3_5wi1y"]
 [ext_resource type="Texture2D" uid="uid://ds0fimm25xnhy" path="res://assets/sprites/star_small.png" id="4_bnqvl"]
