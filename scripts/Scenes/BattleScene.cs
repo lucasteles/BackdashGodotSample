@@ -7,7 +7,7 @@ using SpaceWar.Services;
 public partial class BattleScene : Node2D
 {
     GlobalConfig config;
-    IRollbackSession<GameInputs, GameState> rollbackSession;
+    IRollbackSession<GameInputs> rollbackSession;
     OnlineMatchSession gameSession;
 
     GameState gs;
@@ -71,7 +71,7 @@ public partial class BattleScene : Node2D
 
     void CreateRollbackSession()
     {
-        SessionServices<GameInputs, GameState> services = new()
+        SessionServices<GameInputs> services = new()
         {
             LogWriter = new GDBackdashLogger(),
         };

@@ -1,5 +1,6 @@
 using Backdash;
 using Backdash.Data;
+using Backdash.Serialization.Buffer;
 
 namespace SpaceWar.Logic;
 
@@ -7,7 +8,7 @@ public sealed class OnlineMatchSession(
     GameState gameState,
     NonGameState nonGameState,
     IRollbackSession<GameInputs> session
-) : IRollbackHandler<GameState>
+) : IRollbackHandler
 {
     readonly SynchronizedInput<GameInputs>[] inputs =
         new SynchronizedInput<GameInputs>[nonGameState.NumberOfPlayers];
@@ -130,45 +131,13 @@ public sealed class OnlineMatchSession(
         }
     }
 
-    public static void CopyState(GameState from, GameState to)
+    public void SaveState(in Frame frame, ref readonly BinaryBufferWriter writer) =>
+        gameState.SaveState(in writer);
+
+    public void LoadState(in Frame frame, ref readonly BinaryBufferReader reader)
     {
-        to.Bounds = from.Bounds;
-        to.FrameNumber = from.FrameNumber;
-        if (to.Ships.Length is 0)
-        {
-            to.Ships = new(from.Ships.Length);
-            for (var i = 0; i < from.Ships.Length; i++)
-                to.Ships[i] = new();
-        }
-
-        for (var i = 0; i < from.Ships.Length; i++)
-        {
-            ref var toShip = ref to.Ships[i];
-            ref var fromShip = ref from.Ships[i];
-            toShip.Id = fromShip.Id;
-            toShip.Position = fromShip.Position;
-            toShip.Velocity = fromShip.Velocity;
-            toShip.Radius = fromShip.Radius;
-            toShip.Heading = fromShip.Heading;
-            toShip.Health = fromShip.Health;
-            toShip.Active = fromShip.Active;
-            toShip.FireCooldown = fromShip.FireCooldown;
-            toShip.MissileCooldown = fromShip.MissileCooldown;
-            toShip.Invincible = fromShip.Invincible;
-            toShip.Score = fromShip.Score;
-            toShip.Thrust = fromShip.Thrust;
-            // safe because Missile is a struct/value type
-            toShip.Missile = fromShip.Missile;
-            fromShip.Bullets.CopyTo(toShip.Bullets);
-        }
-    }
-
-    public void SaveState(in Frame frame, ref GameState state) => CopyState(gameState, state);
-
-    public void LoadState(in Frame frame, in GameState gs)
-    {
-        Log.Debug($"{DateTime.Now:o} => Loading state {frame}...");
-        CopyState(gs, gameState);
+        Console.WriteLine($"{DateTime.Now:o} => Loading state {frame}...");
+        gameState.LoadState(in reader);
     }
 
     public void AdvanceFrame()

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Backdash.Serialization.Buffer;
 
 public static partial class Extensions
 {
@@ -15,4 +16,25 @@ public static partial class Extensions
     public static float Right(this Rect2 rect) => rect.Position.X + rect.Size.X;
     public static float Top(this Rect2 rect) => rect.Position.Y;
     public static float Bottom(this Rect2 rect) => rect.Position.Y + rect.Size.Y;
+
+    public static void Write(this BinaryBufferWriter writer, in Vector2 rect)
+    {
+        writer.Write(rect.X);
+        writer.Write(rect.Y);
+    }
+
+    public static void Write(this BinaryBufferWriter writer, in Rect2 rect)
+    {
+        writer.Write(rect.Position);
+        writer.Write(rect.Size);
+    }
+
+    public static Vector2 ReadGdVector2(this BinaryBufferReader reader) =>
+        new(reader.ReadFloat(), reader.ReadFloat());
+
+    public static Rect2 ReadRec2(this BinaryBufferReader reader) =>
+        new(
+            position: reader.ReadGdVector2(),
+            size: reader.ReadGdVector2()
+        );
 }
