@@ -7,7 +7,7 @@ using SpaceWar.Services;
 public partial class BattleScene : Node2D
 {
     GlobalConfig config;
-    IRollbackSession<GameInputs> rollbackSession;
+    INetcodeSession<GameInputs> rollbackSession;
     OnlineMatchSession gameSession;
 
     GameState gs;
@@ -18,7 +18,7 @@ public partial class BattleScene : Node2D
     Label lblStatusMessage;
     PanelContainer messageBox;
 
-    static readonly RollbackOptions options = new()
+    static readonly NetcodeOptions options = new()
     {
         FrameDelay = 2,
         Log = new()

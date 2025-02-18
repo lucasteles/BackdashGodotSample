@@ -7,8 +7,8 @@ namespace SpaceWar.Logic;
 public sealed class OnlineMatchSession(
     GameState gameState,
     NonGameState nonGameState,
-    IRollbackSession<GameInputs> session
-) : IRollbackHandler
+    INetcodeSession<GameInputs> session
+) : INetcodeSessionHandler
 {
     readonly SynchronizedInput<GameInputs>[] inputs =
         new SynchronizedInput<GameInputs>[nonGameState.NumberOfPlayers];
