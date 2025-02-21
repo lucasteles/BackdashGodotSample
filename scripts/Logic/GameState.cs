@@ -1,4 +1,4 @@
-using Backdash.Serialization.Buffer;
+using Backdash.Serialization;
 using SpaceWar.Models;
 
 namespace SpaceWar.Logic;
@@ -44,20 +44,16 @@ public sealed record GameState
 
     public void SaveState(ref readonly BinaryBufferWriter writer)
     {
-        writer.Write(Bounds);
-        writer.Write(FrameNumber);
-
-        for (var i = 0; i < Ships.Length; i++)
-            Ships[i].SaveState(in writer);
+        writer.Write(in Bounds);
+        writer.Write(in FrameNumber);
+        writer.Write(in Ships);
     }
 
     public void LoadState(ref readonly BinaryBufferReader reader)
     {
         Bounds = reader.ReadRec2();
         FrameNumber = reader.ReadInt32();
-
-        for (var i = 0; i < Ships.Length; i++)
-            Ships[i].LoadState(in reader);
+        reader.Read(in Ships);
     }
 
     static ShipInput GetShipAI(in Ship ship) => new(
@@ -67,28 +63,28 @@ public sealed record GameState
         Missile: false
     );
 
-    public ShipInput ParseShipInputs(GameInputs inputses, in Ship ship)
+    static ShipInput ParseShipInputs(GameInputs inputs, in Ship ship)
     {
         if (!ship.Active)
             return new();
 
         float heading;
-        if (inputses.HasFlag(GameInputs.RotateRight))
+        if (inputs.HasFlag(GameInputs.RotateRight))
             heading = (ship.Heading + GameConstants.RotateIncrement) % 360f;
-        else if (inputses.HasFlag(GameInputs.RotateLeft))
+        else if (inputs.HasFlag(GameInputs.RotateLeft))
             heading = (ship.Heading - GameConstants.RotateIncrement + 360) % 360;
         else
             heading = ship.Heading;
         float thrust;
-        if (inputses.HasFlag(GameInputs.Thrust))
+        if (inputs.HasFlag(GameInputs.Thrust))
             thrust = GameConstants.ShipThrust;
-        else if (inputses.HasFlag(GameInputs.Break))
+        else if (inputs.HasFlag(GameInputs.Break))
             thrust = -GameConstants.ShipThrust;
         else
             thrust = 0;
         return new(heading, thrust,
-            inputses.HasFlag(GameInputs.Fire),
-            inputses.HasFlag(GameInputs.Missile)
+            inputs.HasFlag(GameInputs.Fire),
+            inputs.HasFlag(GameInputs.Missile)
         );
     }
 

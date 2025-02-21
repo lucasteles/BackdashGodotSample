@@ -1,10 +1,9 @@
-using Backdash.Serialization.Buffer;
+using Backdash.Serialization;
+using SpaceWar.Logic;
 
 namespace SpaceWar.Models;
 
-using Logic;
-
-public sealed record Ship
+public sealed record Ship : IBinarySerializable
 {
     public byte Id;
     public bool Active;
@@ -21,7 +20,7 @@ public sealed record Ship
     public Missile Missile;
     public readonly Bullet[] Bullets = new Bullet[GameConstants.MaxBullets];
 
-    public void SaveState(ref readonly BinaryBufferWriter writer)
+    public void Serialize(ref readonly BinaryBufferWriter writer)
     {
         writer.Write(in Id);
         writer.Write(in Active);
@@ -36,16 +35,17 @@ public sealed record Ship
         writer.Write(in Score);
         writer.Write(in Thrust);
 
+        // Caution: WriteStruct not normalize endianness
         writer.WriteStruct(in Missile);
         writer.WriteStruct(in Bullets);
     }
 
-    public void LoadState(ref readonly BinaryBufferReader reader)
+    public void Deserialize(ref readonly BinaryBufferReader reader)
     {
         Id = reader.ReadByte();
         Active = reader.ReadBoolean();
-        Position = reader.ReadGdVector2();
-        Velocity = reader.ReadGdVector2();
+        Position = reader.ReadVector2();
+        Velocity = reader.ReadVector2();
         Radius = reader.ReadInt32();
         Heading = reader.ReadInt32();
         Health = reader.ReadInt32();
@@ -55,7 +55,7 @@ public sealed record Ship
         Score = reader.ReadInt32();
         Thrust = reader.ReadInt32();
 
-        Missile = reader.ReadStruct<Missile>();
+        reader.ReadStruct(ref Missile);
         reader.ReadStruct(in Bullets);
     }
 }

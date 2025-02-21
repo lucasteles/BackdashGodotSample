@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using Backdash.Serialization.Buffer;
+using Backdash.Serialization;
 
 public static partial class Extensions
 {
@@ -29,12 +29,12 @@ public static partial class Extensions
         writer.Write(rect.Size);
     }
 
-    public static Vector2 ReadGdVector2(this BinaryBufferReader reader) =>
+    public static Vector2 ReadVector2(this BinaryBufferReader reader) =>
         new(reader.ReadFloat(), reader.ReadFloat());
 
     public static Rect2 ReadRec2(this BinaryBufferReader reader) =>
         new(
-            position: reader.ReadGdVector2(),
-            size: reader.ReadGdVector2()
+            position: reader.ReadVector2(),
+            size: reader.ReadVector2()
         );
 }

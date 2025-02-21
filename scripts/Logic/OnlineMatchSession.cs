@@ -1,6 +1,6 @@
 using Backdash;
 using Backdash.Data;
-using Backdash.Serialization.Buffer;
+using Backdash.Serialization;
 
 namespace SpaceWar.Logic;
 
