@@ -12,10 +12,10 @@ public static partial class Extensions
     public static Vector2 RoundTo(this Vector2 vector, int digits = 2) =>
         new(MathF.Round(vector.X, digits), MathF.Round(vector.Y, digits));
 
-    public static float Left(this Rect2 rect) => rect.Position.X;
-    public static float Right(this Rect2 rect) => rect.Position.X + rect.Size.X;
-    public static float Top(this Rect2 rect) => rect.Position.Y;
-    public static float Bottom(this Rect2 rect) => rect.Position.Y + rect.Size.Y;
+    public static int Left(this Rect2I rect) => rect.Position.X;
+    public static int Right(this Rect2I rect) => rect.Position.X + rect.Size.X;
+    public static int Top(this Rect2I rect) => rect.Position.Y;
+    public static int Bottom(this Rect2I rect) => rect.Position.Y + rect.Size.Y;
 
     public static void Write(this BinaryBufferWriter writer, in Vector2 rect)
     {
@@ -23,7 +23,13 @@ public static partial class Extensions
         writer.Write(rect.Y);
     }
 
-    public static void Write(this BinaryBufferWriter writer, in Rect2 rect)
+    public static void Write(this BinaryBufferWriter writer, in Vector2I rect)
+    {
+        writer.Write(rect.X);
+        writer.Write(rect.Y);
+    }
+
+    public static void Write(this BinaryBufferWriter writer, in Rect2I rect)
     {
         writer.Write(rect.Position);
         writer.Write(rect.Size);
@@ -32,9 +38,12 @@ public static partial class Extensions
     public static Vector2 ReadVector2(this BinaryBufferReader reader) =>
         new(reader.ReadFloat(), reader.ReadFloat());
 
-    public static Rect2 ReadRec2(this BinaryBufferReader reader) =>
+    public static Vector2I ReadVector2I(this BinaryBufferReader reader) =>
+        new(reader.ReadInt32(), reader.ReadInt32());
+
+    public static Rect2I ReadRec2I(this BinaryBufferReader reader) =>
         new(
-            position: reader.ReadVector2(),
-            size: reader.ReadVector2()
+            position: reader.ReadVector2I(),
+            size: reader.ReadVector2I()
         );
 }

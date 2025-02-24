@@ -8,12 +8,12 @@ using Backdash.Data;
 public sealed record GameState
 {
     public Ship[] Ships = [];
-    public Rect2 Bounds;
+    public Rect2I Bounds;
     public int FrameNumber;
 
     int NumberOfShips => Ships.Length;
 
-    public void Init(int numberOfPlayers, Rect2 viewPort)
+    public void Init(int numberOfPlayers, Rect2I viewPort)
     {
         Ships = new Ship[numberOfPlayers];
         for (var i = 0; i < numberOfPlayers; i++)
@@ -31,10 +31,10 @@ public sealed record GameState
             var heading = (i + 1) * 360f / numberOfPlayers;
             var theta = Mathf.DegToRad(heading);
             var (cosT, sinT) = (Math.Cos(theta), Math.Sin(theta));
-            var x = Math.Round((width / 2.0) + (r * cosT), 2);
-            var y = Math.Round((height / 2.0) + (r * sinT), 2);
+            var x = (float)Math.Round((width / 2.0) + (r * cosT), 2);
+            var y = (float)Math.Round((height / 2.0) + (r * sinT), 2);
             Ships[i].Id = (byte)(i + 1);
-            Ships[i].Position = new((float)x, (float)y);
+            Ships[i].Position = new(x, y);
             Ships[i].Active = true;
             Ships[i].Heading = (int)((heading + 180) % 360);
             Ships[i].Health = GameConstants.StartingHealth;
@@ -46,12 +46,12 @@ public sealed record GameState
     {
         writer.Write(in Bounds);
         writer.Write(in FrameNumber);
-        writer.Write(in Ships);
+        writer.Write(in Ships); // Ship implements IBinarySerializable
     }
 
     public void LoadState(ref readonly BinaryBufferReader reader)
     {
-        Bounds = reader.ReadRec2();
+        Bounds = reader.ReadRec2I();
         FrameNumber = reader.ReadInt32();
         reader.Read(in Ships);
     }
@@ -167,7 +167,7 @@ public sealed record GameState
             if (!bullet.Active)
                 continue;
             bullet.Position += bullet.Velocity;
-            if (!Bounds.HasPoint(bullet.Position))
+            if (!Bounds.HasPoint((Vector2I)bullet.Position))
             {
                 bullet.Active = false;
                 continue;
@@ -270,7 +270,7 @@ public sealed record GameState
                 other.Position += other.Velocity * 2;
             }
 
-        if (!Bounds.HasPoint(missile.Position))
+        if (!Bounds.HasPoint((Vector2I)missile.Position))
         {
             var normal = Vector2.Zero;
             if (missile.Position.X < Bounds.Left()) normal = Vector2.Right;

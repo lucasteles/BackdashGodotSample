@@ -57,7 +57,7 @@ public partial class BattleScene : Node2D
         ngs = new();
 
 
-        gs.Init(numPlayers, GetViewportRect());
+        gs.Init(numPlayers, (Rect2I)GetViewportRect());
         ngs.Init(
             gs.Ships,
             rollbackSession.GetPlayers(),

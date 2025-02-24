@@ -1,6 +1,6 @@
 namespace SpaceWar.Logic;
 
-public class GameConstants
+public static class GameConstants
 {
     public const int MaxShips = 4;
     public const int WindowPadding = 8;
