@@ -17,7 +17,7 @@ public sealed record Ship : IBinarySerializable
     public int Invincible;
     public int Score;
     public int Thrust;
-    public Missile Missile;
+    public readonly Missile Missile = new();
     public readonly Bullet[] Bullets = new Bullet[GameConstants.MaxBullets];
 
     public void Serialize(ref readonly BinaryBufferWriter writer)
@@ -34,28 +34,28 @@ public sealed record Ship : IBinarySerializable
         writer.Write(in Invincible);
         writer.Write(in Score);
         writer.Write(in Thrust);
+        writer.Write(in Missile);
 
         // Caution: WriteStruct not normalize endianness
-        writer.WriteStruct(in Missile);
         writer.WriteStruct(in Bullets);
     }
 
     public void Deserialize(ref readonly BinaryBufferReader reader)
     {
-        Id = reader.ReadByte();
-        Active = reader.ReadBoolean();
-        Position = reader.ReadVector2();
-        Velocity = reader.ReadVector2();
-        Radius = reader.ReadInt32();
-        Heading = reader.ReadInt32();
-        Health = reader.ReadInt32();
-        FireCooldown = reader.ReadInt32();
-        MissileCooldown = reader.ReadInt32();
-        Invincible = reader.ReadInt32();
-        Score = reader.ReadInt32();
-        Thrust = reader.ReadInt32();
+        reader.Read(ref Id);
+        reader.Read(ref Active);
+        reader.Read(ref Position);
+        reader.Read(ref Velocity);
+        reader.Read(ref Radius);
+        reader.Read(ref Heading);
+        reader.Read(ref Health);
+        reader.Read(ref FireCooldown);
+        reader.Read(ref MissileCooldown);
+        reader.Read(ref Invincible);
+        reader.Read(ref Score);
+        reader.Read(ref Thrust);
+        reader.Read(Missile);
 
-        reader.ReadStruct(ref Missile);
         reader.ReadStruct(in Bullets);
     }
 }
@@ -67,7 +67,7 @@ public record struct Bullet
     public Vector2 Velocity;
 }
 
-public record struct Missile
+public class Missile : IBinarySerializable
 {
     public bool Active;
     public int ExplodeTimeout;
@@ -77,7 +77,31 @@ public record struct Missile
     public int Heading;
     public Vector2 Position;
     public Vector2 Velocity;
-    public readonly bool IsExploding() => ExplodeTimeout is 0 && HitBoxTime > 0;
+    public bool IsExploding() => ExplodeTimeout is 0 && HitBoxTime > 0;
+
+    public void Serialize(ref readonly BinaryBufferWriter writer)
+    {
+        writer.Write(in Active);
+        writer.Write(in ExplodeTimeout);
+        writer.Write(in HitBoxTime);
+        writer.Write(in ExplosionRadius);
+        writer.Write(in ProjectileRadius);
+        writer.Write(in Heading);
+        writer.Write(in Position);
+        writer.Write(in Velocity);
+    }
+
+    public void Deserialize(ref readonly BinaryBufferReader reader)
+    {
+        reader.Read(ref Active);
+        reader.Read(ref ExplodeTimeout);
+        reader.Read(ref HitBoxTime);
+        reader.Read(ref ExplosionRadius);
+        reader.Read(ref ProjectileRadius);
+        reader.Read(ref Heading);
+        reader.Read(ref Position);
+        reader.Read(ref Velocity);
+    }
 }
 
 public readonly record struct ShipInput(

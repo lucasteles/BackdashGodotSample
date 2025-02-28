@@ -5,7 +5,7 @@
     <ImplicitUsings>true</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Backdash" Version="0.5.3-preview" />
-    <PackageReference Include="Backdash.Utils" Version="0.5.3-preview" />
+    <PackageReference Include="Backdash" Version="0.5.5-preview" />
+    <PackageReference Include="Backdash.Utils" Version="0.5.5-preview" />
   </ItemGroup>
 </Project>

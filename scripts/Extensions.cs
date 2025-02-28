@@ -35,15 +35,18 @@ public static partial class Extensions
         writer.Write(rect.Size);
     }
 
-    public static Vector2 ReadVector2(this BinaryBufferReader reader) =>
-        new(reader.ReadFloat(), reader.ReadFloat());
+    public static void Read(this BinaryBufferReader reader, ref Vector2 vector)
+    {
+        vector.X = reader.ReadFloat();
+        vector.Y = reader.ReadFloat();
+    }
+
+    public static void Read(this BinaryBufferReader reader, ref Rect2I rect)
+    {
+        rect.Position = reader.ReadVector2I();
+        rect.Size = reader.ReadVector2I();
+    }
 
     public static Vector2I ReadVector2I(this BinaryBufferReader reader) =>
         new(reader.ReadInt32(), reader.ReadInt32());
-
-    public static Rect2I ReadRec2I(this BinaryBufferReader reader) =>
-        new(
-            position: reader.ReadVector2I(),
-            size: reader.ReadVector2I()
-        );
 }

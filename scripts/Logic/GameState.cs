@@ -51,9 +51,9 @@ public sealed record GameState
 
     public void LoadState(ref readonly BinaryBufferReader reader)
     {
-        Bounds = reader.ReadRec2I();
-        FrameNumber = reader.ReadInt32();
-        reader.Read(in Ships);
+        reader.Read(ref Bounds);
+        reader.Read(ref FrameNumber);
+        reader.Read(Ships);
     }
 
     static ShipInput GetShipAI(in Ship ship) => new(
@@ -209,7 +209,7 @@ public sealed record GameState
         if (!ship.Missile.Active)
             return;
 
-        ref var missile = ref ship.Missile;
+        var missile = ship.Missile;
         missile.Position += missile.Velocity;
         if (missile.Velocity.Length() < GameConstants.MissileMaxSpeed)
             missile.Velocity += (
