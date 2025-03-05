@@ -1,9 +1,9 @@
 using Backdash.Serialization;
 using SpaceWar.Models;
+using Backdash;
 
 namespace SpaceWar.Logic;
 
-using Backdash.Data;
 
 public sealed record GameState
 {
