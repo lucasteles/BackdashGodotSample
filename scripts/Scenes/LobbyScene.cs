@@ -371,7 +371,7 @@ public partial class LobbyScene : Node
             var host = lobbyInfo.Players.Single(x => x.PeerId == hostId);
             config.SpectateHost = udpClient.GetFallbackEndpoint(user, host);
 
-            DisplayServer.WindowSetTitle($"Space War {config.LocalPort}: watching {host.Username}@{lobbyInfo.Name}");
+            DisplayServer.WindowSetTitle($"Space War {config.LocalPort}: spectating {host.Username}@{lobbyInfo.Name}");
         }
     }
 

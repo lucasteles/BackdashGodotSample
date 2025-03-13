@@ -7,7 +7,7 @@ using SpaceWar.Services;
 public partial class BattleScene : Node2D
 {
     GlobalConfig config;
-    INetcodeSession<GameInputs> rollbackSession;
+    INetcodeSession<GameInputs> netcodeSession;
     OnlineMatchSession gameSession;
 
     GameState gs;
@@ -17,22 +17,6 @@ public partial class BattleScene : Node2D
     Label lblRollbackFrames;
     Label lblStatusMessage;
     PanelContainer messageBox;
-
-    static readonly NetcodeOptions options = new()
-    {
-        FrameDelay = 2,
-        Log = new()
-        {
-            EnabledLevel = LogLevel.Warning,
-        },
-        Protocol = new()
-        {
-            NumberOfSyncRoundtrips = 10,
-            DisconnectTimeout = TimeSpan.FromSeconds(3),
-            DisconnectNotifyStart = TimeSpan.FromSeconds(1),
-            LogNetworkStats = false,
-        },
-    };
 
     public override void _Ready()
     {
@@ -45,54 +29,62 @@ public partial class BattleScene : Node2D
         lblStatusMessage.Text = "";
         messageBox.Visible = false;
 
-        CreateRollbackSession();
+        netcodeSession = CreateRollbackSession();
+
         InitializeSession();
     }
 
     void InitializeSession()
     {
-        var numPlayers = rollbackSession.NumberOfPlayers;
-
         gs = new();
         ngs = new();
 
+        gs.Init(
+            netcodeSession.NumberOfPlayers,
+            (Rect2I)GetViewportRect()
+        );
 
-        gs.Init(numPlayers, (Rect2I)GetViewportRect());
         ngs.Init(
             gs.Ships,
-            rollbackSession.GetPlayers(),
+            netcodeSession.GetPlayers(),
             this
         );
 
-        gameSession = new(gs, ngs, rollbackSession);
-        rollbackSession.SetHandler(gameSession);
-        rollbackSession.Start();
+        gameSession = new(gs, ngs, netcodeSession);
+        netcodeSession.SetHandler(gameSession);
+        netcodeSession.Start();
     }
 
-    void CreateRollbackSession()
+    INetcodeSession<GameInputs> CreateRollbackSession()
     {
-        SessionServices<GameInputs> services = new()
-        {
-            LogWriter = new GDBackdashLogger(),
-        };
+        var builder =
+            RollbackNetcode
+                .WithInputType<GameInputs>()
+                .WithPort(config.LocalPort)
+                .WithInputDelayFrames(2)
+                .WithLogLevel(LogLevel.Warning)
+                .WithLogWriter<GDBackdashLogger>();
 
         switch (config.Mode)
         {
             case PlayerMode.Player:
-                var localPlayer = config.MatchPlayers.FirstOrDefault(x => x.IsLocal());
-                if (localPlayer is null)
+                if (!config.MatchPlayers.Any(x => x.IsLocal()))
                     throw new InvalidOperationException("No local player defined");
 
-                rollbackSession = RollbackNetcode.CreateSession(config.LocalPort, options, services);
-                rollbackSession.AddPlayers(config.MatchPlayers);
-                break;
+                return builder
+                    .WithPlayers(config.MatchPlayers)
+                    .ForRemote()
+                    .Build();
+
             case PlayerMode.Spectator:
-                rollbackSession = RollbackNetcode.CreateSpectatorSession(
-                    config.LocalPort, config.SpectateHost,
-                    config.LobbyInfo.Players.Length,
-                    options, services
-                );
-                break;
+                return builder
+                    .WithPlayerCount(config.LobbyInfo.Players.Length)
+                    .ForSpectator(options =>
+                    {
+                        options.HostEndPoint = config.SpectateHost;
+                    })
+                    .Build();
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -136,7 +128,7 @@ public partial class BattleScene : Node2D
 
     protected override void Dispose(bool disposing)
     {
-        rollbackSession.Dispose();
+        netcodeSession.Dispose();
         base.Dispose(disposing);
     }
 }
