@@ -1,5 +1,4 @@
 using Backdash;
-using Backdash.Data;
 using Backdash.Serialization;
 
 namespace SpaceWar.Logic;
@@ -10,9 +9,6 @@ public sealed class OnlineMatchSession(
     INetcodeSession<GameInputs> session
 ) : INetcodeSessionHandler
 {
-    readonly SynchronizedInput<GameInputs>[] inputs =
-        new SynchronizedInput<GameInputs>[nonGameState.NumberOfPlayers];
-
     public void Update(double delta)
     {
         if (nonGameState.Sleeping)
@@ -38,8 +34,7 @@ public sealed class OnlineMatchSession(
             return;
         }
 
-        session.GetInputs(inputs);
-        gameState.Update(inputs);
+        gameState.Update(session.CurrentSynchronizedInputs);
         nonGameState.Update(gameState);
         session.AdvanceFrame();
     }
@@ -143,8 +138,7 @@ public sealed class OnlineMatchSession(
     public void AdvanceFrame()
     {
         session.SynchronizeInputs();
-        session.GetInputs(inputs);
-        gameState.Update(inputs);
+        gameState.Update(session.CurrentSynchronizedInputs);
         session.AdvanceFrame();
     }
 }

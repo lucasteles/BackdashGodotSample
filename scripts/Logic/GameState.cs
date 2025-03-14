@@ -4,7 +4,6 @@ using Backdash;
 
 namespace SpaceWar.Logic;
 
-
 public sealed record GameState
 {
     public Ship[] Ships = [];
@@ -292,7 +291,7 @@ public sealed record GameState
             missile.HitBoxTime--;
     }
 
-    public void Update(SynchronizedInput<GameInputs>[] inputs)
+    public void Update(ReadOnlySpan<SynchronizedInput<GameInputs>> inputs)
     {
         FrameNumber++;
         for (var i = 0; i < NumberOfShips; i++)

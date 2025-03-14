@@ -29,13 +29,13 @@ public partial class BattleScene : Node2D
         lblStatusMessage.Text = "";
         messageBox.Visible = false;
 
-        netcodeSession = CreateRollbackSession();
-
         InitializeSession();
     }
 
     void InitializeSession()
     {
+        netcodeSession = CreateRollbackSession();
+
         gs = new();
         ngs = new();
 
@@ -79,10 +79,7 @@ public partial class BattleScene : Node2D
             case PlayerMode.Spectator:
                 return builder
                     .WithPlayerCount(config.LobbyInfo.Players.Length)
-                    .ForSpectator(options =>
-                    {
-                        options.HostEndPoint = config.SpectateHost;
-                    })
+                    .ForSpectator(config.SpectateHost)
                     .Build();
 
             default:

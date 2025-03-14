@@ -5,7 +5,6 @@ namespace SpaceWar.Logic;
 
 using System.Text;
 using Backdash;
-using Backdash.Data;
 
 public enum PlayerConnectState
 {
