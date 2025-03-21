@@ -339,7 +339,7 @@ public partial class LobbyScene : Node
 
         void ConfigureBattleScene()
         {
-            List<Player> players = [];
+            List<NetcodePlayer> players = [];
 
             for (var i = 0; i < lobbyInfo.Players.Length; i++)
             {
@@ -347,8 +347,8 @@ public partial class LobbyScene : Node
                 var playerNumber = i + 1;
 
                 players.Add(player.PeerId == user.PeerId
-                    ? new LocalPlayer(playerNumber)
-                    : new RemotePlayer(playerNumber,
+                    ? NetcodePlayer.CreateLocal()
+                    : NetcodePlayer.CreateRemote(
                         udpClient.GetFallbackEndpoint(user, player)));
             }
 
@@ -357,7 +357,7 @@ public partial class LobbyScene : Node
                 players.AddRange(lobbyInfo.Spectators
                     .Where(s => spectatorIds.Contains(s.PeerId))
                     .Select(spectator => udpClient.GetFallbackEndpoint(user, spectator))
-                    .Select(spectatorEndpoint => new Spectator(spectatorEndpoint)));
+                    .Select(NetcodePlayer.CreateSpectator));
 
             config.MatchPlayers = players.AsReadOnly();
         }

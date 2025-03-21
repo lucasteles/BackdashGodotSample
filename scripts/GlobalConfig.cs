@@ -15,7 +15,7 @@ public class GlobalConfig
     public PlayerMode Mode { get; set; }
     public Lobby LobbyInfo { get; set; }
     public IPEndPoint SpectateHost { get; set; }
-    public IReadOnlyList<Player> MatchPlayers { get; set; }
+    public IReadOnlyList<NetcodePlayer> MatchPlayers { get; set; }
 
     public GlobalConfig()
     {
