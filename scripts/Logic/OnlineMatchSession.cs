@@ -51,12 +51,11 @@ public sealed class OnlineMatchSession(
     {
         if (nonGameState.NumberOfPlayers <= number) return;
         var handle = nonGameState.Players[number].Handle;
-        session.DisconnectPlayer(in handle);
+        session.DisconnectPlayer(handle);
         nonGameState.StatusText.Clear();
         nonGameState.StatusText.Append("Disconnected player ");
         nonGameState.StatusText.Append(handle.Number);
     }
-
 
     public void OnSessionStart()
     {
@@ -85,11 +84,12 @@ public sealed class OnlineMatchSession(
             ref var player = ref nonGameState.Players[i];
             if (!player.Handle.IsRemote())
                 continue;
-            session.GetNetworkStatus(player.Handle, ref player.PeerNetworkStats);
+
+            session.UpdateNetworkStats(player.Handle);
         }
     }
 
-    public void OnPeerEvent(PlayerHandle player, PeerEventInfo evt)
+    public void OnPeerEvent(NetcodePlayer player, PeerEventInfo evt)
     {
         Log.Debug($"{DateTime.Now:o} => PEER EVENT: {evt} from {player}");
 

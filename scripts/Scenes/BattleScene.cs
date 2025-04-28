@@ -100,7 +100,7 @@ public partial class BattleScene : Node2D
     {
         var maxPing = ngs.Players
             .Where(static p => p.Handle.IsRemote())
-            .Max(static player => player.PeerNetworkStats.Ping);
+            .Max(static player => player.Handle.NetworkStats.Ping);
 
         lblRollbackFrames.Text = ngs.RollbackFrames.FrameCount.ToString();
         lblPing.Text = $"{maxPing.TotalMilliseconds:f2}";

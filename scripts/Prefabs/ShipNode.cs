@@ -22,7 +22,7 @@ public partial class ShipNode : Node2D
     Sprite2D[] bullets;
     readonly Sprite2D missileSprite = new();
 
-    PlayerConnectionInfo playerConnection;
+    PlayerInfo playerConnection;
 
     bool alive;
 
@@ -98,7 +98,7 @@ public partial class ShipNode : Node2D
         lblStatusText.Modulate = textColor;
     }
 
-    public void Initialize(Ship ship, PlayerConnectionInfo player)
+    public void Initialize(Ship ship, PlayerInfo player)
     {
         if (bullets is null)
             InitializeBullets(ship);

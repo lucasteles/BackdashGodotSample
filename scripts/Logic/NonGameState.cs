@@ -15,21 +15,20 @@ public enum PlayerConnectState
     Disconnecting,
 }
 
-public sealed class PlayerConnectionInfo
+public sealed class PlayerInfo
 {
     public string Name;
-    public PlayerHandle Handle;
+    public NetcodePlayer Handle;
     public PlayerConnectState State;
     public int ConnectProgress;
     public DateTime DisconnectStart;
     public TimeSpan DisconnectTimeout;
-    public PeerNetworkStats PeerNetworkStats = new();
 }
 
 public sealed class NonGameState
 {
-    public PlayerConnectionInfo[] Players { get; private set; }
-    public PlayerHandle? LocalPlayerHandle { get; private set; }
+    public PlayerInfo[] Players { get; private set; }
+    public NetcodePlayer LocalPlayerHandle { get; private set; }
     public int NumberOfPlayers { get; private set; }
     public ShipNode[] ShipNodes { get; private set; }
     public Label[] NameLabels { get; private set; }
@@ -42,7 +41,7 @@ public sealed class NonGameState
 
     public void Init(
         Ship[] ships,
-        IReadOnlyCollection<PlayerHandle> players,
+        IReadOnlyCollection<NetcodePlayer> players,
         Node rootNode
     )
     {
@@ -79,12 +78,12 @@ public sealed class NonGameState
         }
     }
 
-    void InitPlayerInfo(IReadOnlyCollection<PlayerHandle> players, Peer[] peersInfo)
+    void InitPlayerInfo(IReadOnlyCollection<NetcodePlayer> players, Peer[] peersInfo)
     {
-        Players = new PlayerConnectionInfo[NumberOfPlayers];
+        Players = new PlayerInfo[NumberOfPlayers];
         foreach (var player in players)
         {
-            PlayerConnectionInfo playerInfo = new();
+            PlayerInfo playerInfo = new();
             Players[player.Index] = playerInfo;
             playerInfo.Handle = player;
             playerInfo.Name = peersInfo[player.Index].Username;
@@ -110,7 +109,7 @@ public sealed class NonGameState
         }
     }
 
-    public bool TryGetPlayer(PlayerHandle handle, out PlayerConnectionInfo state)
+    public bool TryGetPlayer(NetcodePlayer handle, out PlayerInfo state)
     {
         for (var i = 0; i < Players.Length; i++)
         {
@@ -123,7 +122,7 @@ public sealed class NonGameState
         return false;
     }
 
-    public void SetDisconnectTimeout(PlayerHandle handle, DateTime when, TimeSpan timeout)
+    public void SetDisconnectTimeout(NetcodePlayer handle, DateTime when, TimeSpan timeout)
     {
         if (!TryGetPlayer(handle, out var player)) return;
         player.DisconnectStart = when;
@@ -131,7 +130,7 @@ public sealed class NonGameState
         player.State = PlayerConnectState.Disconnecting;
     }
 
-    public void SetConnectState(in PlayerHandle handle, PlayerConnectState state)
+    public void SetConnectState(NetcodePlayer handle, PlayerConnectState state)
     {
         if (!TryGetPlayer(handle, out var player)) return;
         player.ConnectProgress = 0;
@@ -144,7 +143,7 @@ public sealed class NonGameState
             player.State = state;
     }
 
-    public void UpdateConnectProgress(PlayerHandle handle, int progress)
+    public void UpdateConnectProgress(NetcodePlayer handle, int progress)
     {
         if (!TryGetPlayer(handle, out var player)) return;
         player.ConnectProgress = progress;
