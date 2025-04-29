@@ -76,18 +76,8 @@ public sealed class OnlineMatchSession(
         nonGameState.SleepTime = framesAhead.Duration().TotalSeconds;
     }
 
-    void UpdateStats()
-    {
+    void UpdateStats() =>
         nonGameState.RollbackFrames = session.RollbackFrames;
-        for (var i = 0; i < nonGameState.Players.Length; i++)
-        {
-            ref var player = ref nonGameState.Players[i];
-            if (!player.Handle.IsRemote())
-                continue;
-
-            session.UpdateNetworkStats(player.Handle);
-        }
-    }
 
     public void OnPeerEvent(NetcodePlayer player, PeerEventInfo evt)
     {
