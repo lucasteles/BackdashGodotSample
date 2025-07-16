@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Godot.Collections;
 using SpaceWar.Logic;
 using SpaceWar.Models;
+using SpaceWar.Services;
 using static SpaceWar.Logic.GameConstants;
 
 public partial class ShipNode : Node2D
@@ -98,11 +99,22 @@ public partial class ShipNode : Node2D
         lblStatusText.Modulate = textColor;
     }
 
-    public void Initialize(Ship ship, PlayerInfo player)
-    {
-        if (bullets is null)
-            InitializeBullets(ship);
+    static readonly StringName sceneName = "ship";
 
+    public static ShipNode Instantiate(Ship ship, PlayerInfo player)
+    {
+        var node = Prefab.Instantiate<ShipNode>(sceneName);
+
+        if (node.bullets is null)
+            node.InitializeBullets(ship);
+
+        node.SetPlayer(player);
+        return node;
+    }
+
+    void SetPlayer(PlayerInfo player)
+    {
+        ArgumentNullException.ThrowIfNull(player);
         playerConnection = player;
         SetIndex(player.Handle.Index);
     }

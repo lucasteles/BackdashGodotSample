@@ -1,12 +1,12 @@
 static class ActionNames
 {
-    public const string Start = "start";
-    public const string Cancel = "cancel";
+    public static readonly StringName Start = "start";
+    public static readonly StringName Cancel = "cancel";
 
-    public const string Fire = "fire";
-    public const string Bomb = "bomb";
-    public const string Up = "up";
-    public const string Down = "down";
-    public const string Left = "left";
-    public const string Right = "right";
+    public static readonly StringName Fire = "fire";
+    public static readonly StringName Bomb = "bomb";
+    public static readonly StringName Up = "up";
+    public static readonly StringName Down = "down";
+    public static readonly StringName Left = "left";
+    public static readonly StringName Right = "right";
 }

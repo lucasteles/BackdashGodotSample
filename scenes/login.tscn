@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dm77qm3syxll1"]
+[gd_scene load_steps=5 format=3 uid="uid://dm77qm3syxll1"]
 
+[ext_resource type="Script" path="res://scripts/Services/SceneManager.cs" id="1_8xv23"]
 [ext_resource type="Script" path="res://scripts/Scenes/LoginScene.cs" id="2_xrhcq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vb4j8"]
@@ -15,6 +16,7 @@ outline_size = 5
 outline_color = Color(0.760784, 0.270588, 0, 1)
 
 [node name="Root" type="Node2D"]
+script = ExtResource("1_8xv23")
 
 [node name="FormMarginContainer" type="MarginContainer" parent="."]
 offset_right = 1025.0

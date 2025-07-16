@@ -4,10 +4,10 @@ using Backdash.Serialization;
 public static partial class Extensions
 {
     [GeneratedRegex("[^a-zA-Z0-9]")]
-    private static partial Regex ClearTextRegex();
+    private static partial Regex AlphaNumRegex();
 
-    public static string NormalizeText(this string text) =>
-        ClearTextRegex().Replace(text.Trim(), "_").ToLower();
+    public static string ToAlphaNumeric(this string text) =>
+        AlphaNumRegex().Replace(text.Trim(), "_").ToLower();
 
     public static Vector2 RoundTo(this Vector2 vector, int digits = 2) =>
         new(MathF.Round(vector.X, digits), MathF.Round(vector.Y, digits));

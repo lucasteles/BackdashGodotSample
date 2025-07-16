@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://drwxkxiew1bql"]
+[gd_scene load_steps=17 format=3 uid="uid://drwxkxiew1bql"]
 
 [ext_resource type="Texture2D" uid="uid://c0ae41h1i4s1p" path="res://textures/blank.tres" id="1_ndtds"]
 [ext_resource type="Script" path="res://scripts/Scenes/LobbyScene.cs" id="1_vswju"]
+[ext_resource type="Script" path="res://scripts/Services/SceneManager.cs" id="1_xtwau"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eqvhj"]
 font_size = 35
@@ -36,6 +37,8 @@ content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(0.106237, 0.106237, 0.106237, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akyc4"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uikim"]
 content_margin_left = 10.0
 content_margin_top = 5.0
@@ -43,19 +46,18 @@ content_margin_right = 10.0
 content_margin_bottom = 5.0
 bg_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akyc4"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2llfo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qmlp6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xdev"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ckfke"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o84cs"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ckfke"]
+
 [node name="Root" type="Node2D"]
+script = ExtResource("1_xtwau")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 offset_right = 1027.0
@@ -183,19 +185,19 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-theme_override_colors/font_hovered_color = Color(0.643137, 0.643137, 0.643137, 1)
 theme_override_colors/font_selected_color = Color(0.647059, 0.647059, 0.647059, 1)
-theme_override_constants/h_separation = 10
+theme_override_colors/font_hovered_color = Color(0.643137, 0.643137, 0.643137, 1)
 theme_override_constants/icon_margin = 10
 theme_override_constants/line_separation = 0
+theme_override_constants/h_separation = 10
 theme_override_font_sizes/font_size = 20
-theme_override_styles/panel = SubResource("StyleBoxFlat_uikim")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_akyc4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_uikim")
 theme_override_styles/hovered = SubResource("StyleBoxEmpty_2llfo")
 theme_override_styles/selected = SubResource("StyleBoxEmpty_qmlp6")
 theme_override_styles/selected_focus = SubResource("StyleBoxEmpty_0xdev")
-theme_override_styles/cursor = SubResource("StyleBoxEmpty_ckfke")
 theme_override_styles/cursor_unfocused = SubResource("StyleBoxEmpty_o84cs")
+theme_override_styles/cursor = SubResource("StyleBoxEmpty_ckfke")
 allow_search = false
 item_count = 2
 max_columns = 10

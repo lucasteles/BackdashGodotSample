@@ -25,7 +25,7 @@ public class GlobalConfig
         var section = config.GetSections().Single();
 
         LobbyName = (string)config.GetValue(section, nameof(LobbyName));
-        LobbyName = LobbyName.NormalizeText();
+        LobbyName = LobbyName.ToAlphaNumeric();
 
         LoadLocalPort(config, section);
         LoadUsername(config, section);
@@ -58,6 +58,6 @@ public class GlobalConfig
         if (string.IsNullOrWhiteSpace(Username))
             Username = System.Environment.UserName;
 
-        Username = Username.NormalizeText();
+        Username = Username.ToAlphaNumeric();
     }
 }

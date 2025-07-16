@@ -31,13 +31,14 @@ public partial class LoginScene : Node
 
     void StartLobby(PlayerMode mode)
     {
-        config.Username = txtUsername.Text.NormalizeText();
-        config.LobbyName = txtLobby.Text.NormalizeText();
+        config.Username = txtUsername.Text.ToAlphaNumeric();
+        config.LobbyName = txtLobby.Text.ToAlphaNumeric();
 
         if (int.TryParse(txtLocalPort.Text.Trim(), out var newPort))
             config.LocalPort = newPort;
 
         config.Mode = mode;
-        GetTree().ChangeSceneToFile("res://scenes/lobby.tscn");
+
+        SceneManager.Instance.ChangeTo(SceneName.Lobby);
     }
 }

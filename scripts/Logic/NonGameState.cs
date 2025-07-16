@@ -61,8 +61,7 @@ public sealed class NonGameState
         ShipNodes = new ShipNode[NumberOfPlayers];
         for (var i = 0; i < ShipNodes.Length; i++)
         {
-            var shipNode = Prefab.Instantiate<ShipNode>("ship");
-            shipNode.Initialize(ships[i], Players[i]);
+            var shipNode = ShipNode.Instantiate(ships[i], Players[i]);
             rootNode.AddChild(shipNode);
             ShipNodes[i] = shipNode;
         }

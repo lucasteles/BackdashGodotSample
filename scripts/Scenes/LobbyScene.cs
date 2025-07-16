@@ -309,7 +309,7 @@ public partial class LobbyScene : Node
         }
     }
 
-    void LoadBattleScene() => GetTree().ChangeSceneToFile("res://scenes/battle.tscn");
+    void LoadBattleScene() => SceneManager.Instance.ChangeTo(SceneName.Battle);
 
     void CheckPlayersReady()
     {
